@@ -10,28 +10,46 @@
         $stmt->bind_result($id_from_db, $user_id_from_db, $number_plate_from_db, $color_from_db);
         $stmt->execute();
         
-        $row_nr = 0;
+		$array = array();
+        
+        //$stmt->close();
+        //$mysqli->close();
 		
-		echo "<table border=1>";
-		echo "<tr><th>rea nr</th> <th>auto nr märk</th></tr>";
+        //$row_nr = 0;
+		
+		/*echo "<table border=1>";
+		echo "<tr><th>rea nr</th> <th>auto nr märk</th></tr>";*/
 		
         // iga rea kohta mis on ab'is teeme midagi
         while($stmt->fetch()){
             //saime andmed kätte
-            echo "<tr><td>".$row_nr."</td><td>";
+            /*echo "<tr><td>".$row_nr."</td><td>";
 			echo $number_plate_from_db."</td></tr>";
 			
-            $row_nr++;
+            $row_nr++;*/
+			
+			//suvaline muutuja, kus hoiame andmeid, kuniks lisame massiivi
+			//StdClass on tühi objekt, kus hoiame väärtusi
+			$car = new StdClass();
+			$car->id = $id_from_db;
+			$car->number_plate = $number_plate_from_db;
+			//Lisan massiivi (auto lisan massiivi)
+			array_push($array, $car);
+			/*echo "<pre>";
+			var_dump ($array);
+			echo "</pre>";*/
         }
-        
-		echo "</table>";
+		
+		//Saadan tagasi
+        return $array;
+		//echo "</table>";
 		
         // iga rea kohta mis on ab'is teeme midagi
-        while($stmt->fetch()){
+/*        while($stmt->fetch()){
             //saime andmed kätte
             echo($user_id_from_db);
             //? kuidas saada massiivi - SIIT JÄTKAME
-        }
+        }*/
         
         $stmt->close();
         $mysqli->close();
